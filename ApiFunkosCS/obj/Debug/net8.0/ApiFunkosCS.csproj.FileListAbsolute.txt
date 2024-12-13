@@ -7,8 +7,6 @@ C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\obj\Debug\net8.0\ApiFunkosC
 C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\obj\Debug\net8.0\ApiFunkosCS.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\bin\Debug\net8.0\appsettings.json
-C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\bin\Debug\net8.0\logger.development.json
-C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\bin\Debug\net8.0\logger.production.json
 C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\bin\Debug\net8.0\ApiFunkosCS.exe
 C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\bin\Debug\net8.0\ApiFunkosCS.deps.json
 C:\Users\alvar\RiderProjects\ApiFunkosCS\ApiFunkosCS\bin\Debug\net8.0\ApiFunkosCS.runtimeconfig.json

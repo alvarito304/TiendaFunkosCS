@@ -1,4 +1,3 @@
-
 using System.Text;
 using ApiFunkosCS.CategoryNamespace.Database;
 using ApiFunkosCS.CategoryNamespace.Repository;
@@ -8,100 +7,134 @@ using ApiFunkosCS.FunkoNamespace.Repository;
 using ApiFunkosCS.FunkoNamespace.Service;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using MongoDB.Bson;
 using Serilog;
+using Serilog.Core;
 
-Console.OutputEncoding = Encoding.UTF8;
+Console.OutputEncoding = Encoding.UTF8; // Configura la codificación de salida de la consola a UTF-8 para mostrar caracteres especiales.
 
-var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-Console.WriteLine($"Environment: {environment}");
+var environment = InitLocalEnvironment(); // Inicializa y obtiene el entorno de ejecución actual de la aplicación.
 
-// Configuramos Serilog
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile($"logger.{environment}.json", optional: false, reloadOnChange: true)
-    .Build();
+var configuration = InitConfiguration(); // Construye y obtiene la configuración de la aplicación desde archivos JSON.
 
-// Creamos un logger con la configuración de Serilog
-var logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(configuration)
-    .CreateLogger();
+var logger = InitLogConfig(); // Inicializa y configura el logger de Serilog para registrar eventos y mensajes.
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = InitServices(); // Configura y obtiene un WebApplicationBuilder con servicios necesarios.
 
-builder.Services.AddLogging(logging =>
+builder.Services.AddControllers(); // Agrega soporte para controladores, permitiendo manejar solicitudes HTTP.
+
+builder.Services.AddEndpointsApiExplorer(); // Agrega servicios para explorar los endpoints de la API, necesario para Swagger.
+
+var app = builder.Build(); // Construye la aplicación web a partir del WebApplicationBuilder.
+
+if (app.Environment.IsDevelopment()) // Verifica si el entorno es de desarrollo.
 {
-    logging.ClearProviders(); // Limpia los proveedores de log por defecto
-    logging.AddSerilog(logger, true); // Añade Serilog como un proveedor de log
-});
-logger.Debug("Serilog added as default logger");
+    app.UseSwagger(); // Habilita Swagger para generar documentación de la API.
+    app.UseSwaggerUI(); // Habilita Swagger UI para explorar y probar la API visualmente.
+}
 
-builder.Services.AddDbContext<TiendaDbContext>(options =>
+app.UseHttpsRedirection(); // Redirige automáticamente las solicitudes HTTP a HTTPS para mejorar la seguridad.
+
+app.UseRouting(); // Habilita el enrutamiento para dirigir las solicitudes HTTP a los controladores correspondientes.
+
+app.UseAuthorization(); // Habilita la autorización para asegurar el acceso a recursos protegidos.
+
+app.MapControllers(); // Mapea las rutas de los controladores a los endpoints de la aplicación.
+
+logger.Information("🚀 Tienda API started 🟢"); // Registra un mensaje informativo indicando que la API ha iniciado.
+Console.WriteLine("🚀 Tienda API started 🟢"); // Muestra un mensaje en la consola indicando que la API ha iniciado.
+
+app.Run(); // Inicia la aplicación y comienza a escuchar las solicitudes HTTP entrantes.
+
+string InitLocalEnvironment()
+{
+    Console.OutputEncoding = Encoding.UTF8; // Necesario para mostrar emojis
+    var myEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "";
+    Console.WriteLine($"Environment: {myEnvironment}");
+    return myEnvironment;
+}
+
+IConfiguration InitConfiguration()
+{
+    var myConfiguration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", false, true)
+        .AddJsonFile($"appsettings.{environment}.json", true)
+        .Build();
+    return myConfiguration;
+}
+
+Logger InitLogConfig()
+{
+    // Creamos un logger con la configuración de Serilog
+    return new LoggerConfiguration()
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+}
+
+WebApplicationBuilder InitServices()
+{
+    
+    var myBuilder = WebApplication.CreateBuilder(args);
+    
+    
+    myBuilder.Services.AddLogging(logging =>
     {
-        options.UseInMemoryDatabase("Funkos")
-            // Disable log
-            .EnableSensitiveDataLogging(); // Habilita el registro de datos sensibles
-        logger.Debug("In-memory database added");
-    }
-);
-logger.Debug("Funkos in-memory database added");
+        logging.ClearProviders(); // Limpia los proveedores de log por defecto
+        logging.AddSerilog(logger, true); // Añade Serilog como un proveedor de log
+    });
+    logger.Debug("Serilog added as default logger");
 
-builder.Services.Configure<CategoryDatabaseSettings>(
-    builder.Configuration.GetSection("CategoryStoreDatabase"));
+    
+    /**************** FUNKOS DATABASE SETTINGS **************/
+    myBuilder.Services.AddDbContext<TiendaDbContext>(options =>
+        {
+            options.UseInMemoryDatabase("Funkos")
+                // Disable log
+                .EnableSensitiveDataLogging(); // Habilita el registro de datos sensibles
+            logger.Debug("In-memory database added");
+        }
+    );
+    /*********************************************************/
+    
+    /**************** CATEGORY DATABASE SETTINGS **************/
+    myBuilder.Services.Configure<CategoryDatabaseSettings>(
+        myBuilder.Configuration.GetSection("CategoryStoreDatabase"));
+    /*********************************************************/
     
 
 
 /**************** INYECCION DE DEPENDENCIAS **************/
+// REPOSITORIO Y SERVICIOS
 
 // FUNKO
-builder.Services.AddScoped<IFunkoRepository, FunkoRepository>(); 
-builder.Services.AddScoped<IFunkoService, FunkoService>();
+    myBuilder.Services.AddScoped<IFunkoRepository, FunkoRepository>(); 
+    myBuilder.Services.AddScoped<IFunkoService, FunkoService>();
 
 // CATEGORIA
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+    myBuilder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+    myBuilder.Services.AddScoped<ICategoryService, CategoryService>();
 
 /*********************************************************/
-// Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.EnableAnnotations();
-    // Otros metadatos de la API
-    c.SwaggerDoc("v1", new OpenApiInfo
+/****************  DOCUMENTACION DE SWAGGER **************/
+    myBuilder.Services.AddSwaggerGen(c =>
     {
-        Version = "v1",
-        Title = "Tienda Funkos API",
-        Description = "An API to perform CRUD operations on Funkos and Categories",
-        Contact = new OpenApiContact
+        c.EnableAnnotations();
+        // Otros metadatos de la API
+        c.SwaggerDoc("v1", new OpenApiInfo
         {
-            Name = "Álvaro Herrero Tamayo",
-            Email = "alvaro.herrero11x@gmail.com",
-            Url = new Uri("https://alvarito304github.io")
-        },
-    });
-}); // Agrega SwaggerGen para generar documentación de la API
-logger.Debug("Swagger/OpenAPI services added");
-var app = builder.Build();
+            Version = "v1",
+            Title = "Tienda Funkos API",
+            Description = "An API to perform CRUD operations on Funkos and Categories",
+            Contact = new OpenApiContact
+            {
+                Name = "Álvaro Herrero Tamayo",
+                Email = "alvaro.herrero11x@gmail.com",
+                Url = new Uri("https://alvarito304github.io")
+            },
+        });
+    }); // Agrega SwaggerGen para generar documentación de la API
+/*********************************************************/
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+return myBuilder;
 }
-
-app.UseHttpsRedirection();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-logger.Information("🚀 Tienda API started 🟢");
-Console.WriteLine("🚀 Tienda API started 🟢");
-
-app.Run();
