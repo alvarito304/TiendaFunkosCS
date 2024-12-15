@@ -4,6 +4,13 @@
     build:
       context: .
       dockerfile: ApiFunkosCS/Dockerfile
+    ports:
+      - "5099:8080"
+    depends_on:
+      - mongo-db
+      - postgres
+    networks:
+      - tienda-network
 
   mongo-db:
     container_name: tienda-mongo
@@ -18,6 +25,29 @@
       - ./ApiFunkosCS/initMongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     ports:
       - "27017:27017"
+    networks:
+      - tienda-network
+      
+
+  postgres:
+      image: postgres:latest
+      container_name: postgres_container
+      restart: always
+      environment:
+        POSTGRES_USER: user
+        POSTGRES_PASSWORD: pass
+        POSTGRES_DB: tienda
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data   
+      networks:
+        - tienda-network
+
 
 volumes:
   mongo-init:
+  postgres_data:
+    
+networks:
+  tienda-network:

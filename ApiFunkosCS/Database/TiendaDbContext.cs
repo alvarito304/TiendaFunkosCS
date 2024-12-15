@@ -5,18 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiFunkosCS.Database;
 
-public class TiendaDbContext(DbContextOptions<TiendaDbContext> options) : DbContext(options)
+public class TiendaDbContext : DbContext
 {
-    public DbSet<Funko> Funkos { get; set; }
+    public TiendaDbContext(DbContextOptions<TiendaDbContext> options) : base(options) { }
+    public DbSet<Funko> Funkos => Set<Funko>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Funko>(entity =>
         {
-            entity.Property(e => e.CreatedAt).IsRequired()
-                .ValueGeneratedOnAdd(); 
-            entity.Property(e => e.UpdatedAt).IsRequired()
-                .ValueGeneratedOnUpdate(); 
+            entity.Property(e => e.CreatedAt)
+                .IsRequired()
+                .ValueGeneratedOnAdd();
+            
+            entity.Property(e => e.UpdatedAt)
+                .IsRequired()
+                .ValueGeneratedOnUpdate();
         });
     }
 }

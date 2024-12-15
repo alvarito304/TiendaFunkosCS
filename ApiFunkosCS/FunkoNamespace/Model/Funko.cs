@@ -43,5 +43,14 @@ public class Funko
           //  Category = updatedFunko.Category;
             UpdatedAt = DateOnly.FromDateTime(DateTime.Now);
         }
+        
+        public Funko()
+        {
+            CreatedAt = DateOnly.FromDateTime(DateTime.Now);
+            UpdatedAt = CreatedAt;
+        }
+
+        
+        
     
 }

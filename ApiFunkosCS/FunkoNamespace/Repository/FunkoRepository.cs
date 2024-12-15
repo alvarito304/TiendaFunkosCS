@@ -1,7 +1,7 @@
 using ApiFunkosCS.Database;
 using ApiFunkosCS.FunkoNamespace.Model;
-using ApiFunkosCS.Repository;
 using ApiFunkosCS.Utils;
+using ApiFunkosCS.Utils.GenericRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiFunkosCS.FunkoNamespace.Repository;

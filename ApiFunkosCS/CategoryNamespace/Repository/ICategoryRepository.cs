@@ -1,6 +1,5 @@
 
 using ApiFunkosCS.CategoryNamespace.Model;
-using ApiFunkosCS.Repository;
 using CSharpFunctionalExtensions;
 
 namespace ApiFunkosCS.CategoryNamespace.Repository;

@@ -5,6 +5,7 @@ using ApiFunkosCS.CategoryNamespace.Service;
 using ApiFunkosCS.Database;
 using ApiFunkosCS.FunkoNamespace.Repository;
 using ApiFunkosCS.FunkoNamespace.Service;
+using ApiFunkosCS.Utils.DevApplyMigrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -30,6 +31,7 @@ if (app.Environment.IsDevelopment()) // Verifica si el entorno es de desarrollo.
 {
     app.UseSwagger(); // Habilita Swagger para generar documentación de la API.
     app.UseSwaggerUI(); // Habilita Swagger UI para explorar y probar la API visualmente.
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection(); // Redirige automáticamente las solicitudes HTTP a HTTPS para mejorar la seguridad.
@@ -84,16 +86,22 @@ WebApplicationBuilder InitServices()
     });
     logger.Debug("Serilog added as default logger");
 
+
+    myBuilder.Services.AddMemoryCache(
+        options => options.ExpirationScanFrequency = TimeSpan.FromSeconds(30)
+        );
+
     
     /**************** FUNKOS DATABASE SETTINGS **************/
     myBuilder.Services.AddDbContext<TiendaDbContext>(options =>
-        {
-            options.UseInMemoryDatabase("Funkos")
-                // Disable log
-                .EnableSensitiveDataLogging(); // Habilita el registro de datos sensibles
-            logger.Debug("In-memory database added");
-        }
-    );
+    {
+        var connectionString = configuration.GetSection("FunkoStoreDatabase:ConnectionString")?.Value 
+                               ?? throw new InvalidOperationException("Database connection string not found");
+        options.UseNpgsql(connectionString)
+            .EnableSensitiveDataLogging(); // Habilita el registro de datos sensibles
+        Console.WriteLine("PostgreSQL database connected");
+    });
+
     /*********************************************************/
     
     /**************** CATEGORY DATABASE SETTINGS **************/

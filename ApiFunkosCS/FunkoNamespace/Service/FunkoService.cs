@@ -34,7 +34,7 @@ public class FunkoService : IFunkoService
     public async Task<Funko> CreateAsync(Funko funko)
     {
         _logger.LogInformation($"Creating Funko");
-        _funkoRepository.AddAsync(funko);
+        await _funkoRepository.AddAsync(funko);
          return funko;
     }
 

@@ -1,5 +1,5 @@
 using ApiFunkosCS.FunkoNamespace.Model;
-using ApiFunkosCS.Repository;
+using ApiFunkosCS.Utils.GenericRepository;
 
 namespace ApiFunkosCS.FunkoNamespace.Repository;
 

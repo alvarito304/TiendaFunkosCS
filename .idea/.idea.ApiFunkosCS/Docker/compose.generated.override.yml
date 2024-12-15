@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  apifunkoscs:
+    build:
+      context: "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS"
+      dockerfile: "ApiFunkosCS/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/ApiFunkosCS.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "apifunkoscs:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS\\ApiFunkosCS:/app:rw"
+    - "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS:/src:rw"
+    - "C:\\Users\\alvar\\.nuget\\packages:/home/app/.nuget/packages"
+    working_dir: "/app"
