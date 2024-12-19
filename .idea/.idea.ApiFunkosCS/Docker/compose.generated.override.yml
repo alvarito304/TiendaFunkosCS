@@ -2,7 +2,7 @@
 services:
   apifunkoscs:
     build:
-      context: "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS"
+      context: "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS"
       dockerfile: "ApiFunkosCS/Dockerfile"
       target: "base"
     command: []
@@ -10,12 +10,11 @@ services:
     - "dotnet"
     - "/app/bin/Debug/net8.0/ApiFunkosCS.dll"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
     image: "apifunkoscs:dev"
     ports: []
     volumes:
-    - "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS\\ApiFunkosCS:/app:rw"
-    - "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS:/src:rw"
-    - "C:\\Users\\alvar\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS:/app:rw"
+    - "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS:/src:rw"
+    - "C:\\Users\\alvaro\\.nuget\\packages:/home/app/.nuget/packages"
     working_dir: "/app"

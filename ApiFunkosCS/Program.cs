@@ -6,7 +6,9 @@ using ApiFunkosCS.Database;
 using ApiFunkosCS.FunkoNamespace.Repository;
 using ApiFunkosCS.FunkoNamespace.Service;
 using ApiFunkosCS.Storage.Common;
+using ApiFunkosCS.Storage.LocalStorage.Service;
 using ApiFunkosCS.Utils.DevApplyMigrations;
+using ApiFunkosCS.Utils.ExceptionMiddleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -37,6 +39,8 @@ if (app.Environment.IsDevelopment()) // Verifica si el entorno es de desarrollo.
 app.ApplyMigrations(); // Aplica las migraciones de la base de datos si es necesario.
 
 StorageInit(); // Inicializa el almacenamiento de archivos
+
+app.UseMiddleware<GlobalExceptionMiddleware>(); // Agrega el middleware de manejo de excepciones globales para loguear y manejar errores.
 
 app.UseHttpsRedirection(); // Redirige automáticamente las solicitudes HTTP a HTTPS para mejorar la seguridad.
 
@@ -127,9 +131,12 @@ WebApplicationBuilder InitServices()
     myBuilder.Services.AddScoped<ICategoryService, CategoryService>();
     
 // LOCAL STORAGE
-    myBuilder.Services.Configure<StorageConfig>(
-        myBuilder.Configuration.GetSection("FileStorage")
-        );
+    var storageConfig = myBuilder.Configuration
+        .GetSection("FileStorage")
+        .Get<StorageConfig>();
+
+    myBuilder.Services.AddSingleton(storageConfig);
+    myBuilder.Services.AddScoped<IStorageService, LocalStorageService>();
 
 /*********************************************************/
 
@@ -150,7 +157,7 @@ WebApplicationBuilder InitServices()
                 Url = new Uri("https://alvarito304github.io")
             },
         });
-    }); // Agrega SwaggerGen para generar documentación de la API
+    }); 
 /*********************************************************/
 
 return myBuilder;

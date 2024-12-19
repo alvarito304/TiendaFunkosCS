@@ -1,21 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj": {}
+    "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj": {
+    "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj",
+        "projectUniqueName": "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj",
         "projectName": "ApiFunkosCS",
-        "projectPath": "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj",
-        "packagesPath": "C:\\Users\\alvar\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alvar\\RiderProjects\\ApiFunkosCS\\ApiFunkosCS\\obj\\",
+        "projectPath": "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj",
+        "packagesPath": "C:\\Users\\alvaro\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
-          "C:\\Users\\alvar\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\alvaro\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -78,13 +78,21 @@
               "target": "Package",
               "version": "[8.0.2, )"
             },
+            "Serilog.Extensions.Logging": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            },
+            "Serilog.Sinks.File": {
               "target": "Package",
               "version": "[6.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[7.2.0, )"
+              "version": "[6.5.0, )"
             },
             "Swashbuckle.AspNetCore.Annotations": {
               "target": "Package",
@@ -110,7 +118,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\alvaro\\.dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
