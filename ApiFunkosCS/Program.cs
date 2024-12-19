@@ -5,6 +5,7 @@ using ApiFunkosCS.CategoryNamespace.Service;
 using ApiFunkosCS.Database;
 using ApiFunkosCS.FunkoNamespace.Repository;
 using ApiFunkosCS.FunkoNamespace.Service;
+using ApiFunkosCS.Storage.Common;
 using ApiFunkosCS.Utils.DevApplyMigrations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -31,8 +32,11 @@ if (app.Environment.IsDevelopment()) // Verifica si el entorno es de desarrollo.
 {
     app.UseSwagger(); // Habilita Swagger para generar documentación de la API.
     app.UseSwaggerUI(); // Habilita Swagger UI para explorar y probar la API visualmente.
-    app.ApplyMigrations();
 }
+
+app.ApplyMigrations(); // Aplica las migraciones de la base de datos si es necesario.
+
+StorageInit(); // Inicializa el almacenamiento de archivos
 
 app.UseHttpsRedirection(); // Redirige automáticamente las solicitudes HTTP a HTTPS para mejorar la seguridad.
 
@@ -121,6 +125,11 @@ WebApplicationBuilder InitServices()
 // CATEGORIA
     myBuilder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
     myBuilder.Services.AddScoped<ICategoryService, CategoryService>();
+    
+// LOCAL STORAGE
+    myBuilder.Services.Configure<StorageConfig>(
+        myBuilder.Configuration.GetSection("FileStorage")
+        );
 
 /*********************************************************/
 
@@ -145,4 +154,19 @@ WebApplicationBuilder InitServices()
 /*********************************************************/
 
 return myBuilder;
+}
+
+void StorageInit()
+{
+    logger.Debug("Initializing file storage");
+    var fileStorageConfig = configuration.GetSection("FileStorage").Get<StorageConfig>();
+    Directory.CreateDirectory(fileStorageConfig.UploadDirectory);
+    if (fileStorageConfig.RemoveAll)
+    {
+        logger.Debug("Removing all files in the storage directory");
+        foreach (var file in Directory.GetFiles(fileStorageConfig.UploadDirectory))
+            File.Delete(file);
+    }
+
+    logger.Information("🟢 File storage initialized successfully!");
 }

@@ -11,6 +11,8 @@
       - postgres
     networks:
       - tienda-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
   mongo-db:
     container_name: tienda-mongo

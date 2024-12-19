@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ApiFunkosCS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8e011956db9e731257156c17b056617ddf8ed19")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f83e00c4dc7ddefe228d6137828155a87c29eb4d")]
 [assembly: System.Reflection.AssemblyProductAttribute("ApiFunkosCS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ApiFunkosCS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
