@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+5le3THo/Sc=",
+  "dgSpecHash": "PUPFWBRDg5I=",
   "success": true,
   "projectFilePath": "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS\\ApiFunkosCS.csproj",
   "expectedPackageFiles": [
@@ -63,7 +63,7 @@
     "C:\\Users\\alvaro\\.nuget\\packages\\serilog.expressions\\5.0.0\\serilog.expressions.5.0.0.nupkg.sha512",
     "C:\\Users\\alvaro\\.nuget\\packages\\serilog.extensions\\8.0.2\\serilog.extensions.8.0.2.nupkg.sha512",
     "C:\\Users\\alvaro\\.nuget\\packages\\serilog.extensions.hosting\\8.0.0\\serilog.extensions.hosting.8.0.0.nupkg.sha512",
-    "C:\\Users\\alvaro\\.nuget\\packages\\serilog.extensions.logging\\8.0.0\\serilog.extensions.logging.8.0.0.nupkg.sha512",
+    "C:\\Users\\alvaro\\.nuget\\packages\\serilog.extensions.logging\\9.0.1-dev-02308\\serilog.extensions.logging.9.0.1-dev-02308.nupkg.sha512",
     "C:\\Users\\alvaro\\.nuget\\packages\\serilog.formatting.compact\\2.0.0\\serilog.formatting.compact.2.0.0.nupkg.sha512",
     "C:\\Users\\alvaro\\.nuget\\packages\\serilog.settings.configuration\\8.0.2\\serilog.settings.configuration.8.0.2.nupkg.sha512",
     "C:\\Users\\alvaro\\.nuget\\packages\\serilog.sinks.console\\6.0.0\\serilog.sinks.console.6.0.0.nupkg.sha512",

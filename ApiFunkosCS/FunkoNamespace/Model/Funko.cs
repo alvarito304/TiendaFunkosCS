@@ -30,24 +30,17 @@ public class Funko
     
     public string CategoryID { get; set; }
     
-    public DateOnly CreatedAt { get; set; }
-    public DateOnly UpdatedAt { get; set; }
-
-        public void Update(Funko updatedFunko)
-        {
-            Name = !string.IsNullOrEmpty(updatedFunko.Name)? updatedFunko.Name : Name;
-            Description = !string.IsNullOrEmpty(updatedFunko.Description)? updatedFunko.Description : Description;
-            Stock = updatedFunko.Stock > 0? updatedFunko.Stock : Stock;
-            ImageUrl =!string.IsNullOrEmpty(updatedFunko.ImageUrl)? updatedFunko.ImageUrl : ImageUrl;
-            Price = updatedFunko.Price >= 0? updatedFunko.Price : Price;
-          //  Category = updatedFunko.Category;
-            UpdatedAt = DateOnly.FromDateTime(DateTime.Now);
-        }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public DateTime CreatedAt { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime UpdatedAt { get; set; }
+    
         
         public Funko()
         {
-            CreatedAt = DateOnly.FromDateTime(DateTime.Now);
+            CreatedAt = DateTime.UtcNow;
             UpdatedAt = CreatedAt;
+            ImageUrl = "https://via.placeholder.com/150";
         }
 
         

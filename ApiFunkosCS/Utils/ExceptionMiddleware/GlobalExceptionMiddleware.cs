@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using ApiFunkosCS.FunkoNamespace.Exception;
 
 namespace ApiFunkosCS.Utils.ExceptionMiddleware;
 
@@ -59,7 +60,22 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
                     break;
                 
                 /********************************************************/
-
+                
+                /**************** RESULT EXCEPTIONS *****************************************/
+                case CSharpFunctionalExtensions.ResultFailureException:
+                    statusCode = HttpStatusCode.NotFound;
+                    var errorMessage = exception.Message;
+                    // Extraer solo la parte del mensaje después del último "The error was:"
+                    var lastErrorIndex = errorMessage.LastIndexOf("The error was:");
+                    if (lastErrorIndex != -1)
+                    {
+                        errorMessage = errorMessage.Substring(lastErrorIndex + "The error was:".Length).Trim();
+                    }
+                    errorResponse = new { message = errorMessage };
+                    logger.LogError(exception, "A Result failure occurred: {ErrorMessage}", errorMessage);
+                    break;
+                /********************************************************/
+                
                 default:
                     logger.LogError(exception, "An unhandled exception occurred.");
                     break;

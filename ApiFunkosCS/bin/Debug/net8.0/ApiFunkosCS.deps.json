@@ -16,7 +16,7 @@
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.2",
           "Serilog": "4.2.0",
           "Serilog.Extensions": "8.0.2",
-          "Serilog.Extensions.Logging": "8.0.0",
+          "Serilog.Extensions.Logging": "9.0.1-dev-02308",
           "Serilog.Sinks.Console": "6.0.0",
           "Serilog.Sinks.File": "6.0.0",
           "Swashbuckle.AspNetCore": "6.5.0",
@@ -797,7 +797,7 @@
           "Serilog.Enrichers.Process": "3.0.0",
           "Serilog.Enrichers.Thread": "4.0.0",
           "Serilog.Expressions": "5.0.0",
-          "Serilog.Extensions.Logging": "8.0.0"
+          "Serilog.Extensions.Logging": "9.0.1-dev-02308"
         },
         "runtime": {
           "lib/net8.0/Serilog.Extensions.dll": {
@@ -812,7 +812,7 @@
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
           "Serilog": "4.2.0",
-          "Serilog.Extensions.Logging": "8.0.0"
+          "Serilog.Extensions.Logging": "9.0.1-dev-02308"
         },
         "runtime": {
           "lib/net8.0/Serilog.Extensions.Hosting.dll": {
@@ -821,15 +821,15 @@
           }
         }
       },
-      "Serilog.Extensions.Logging/8.0.0": {
+      "Serilog.Extensions.Logging/9.0.1-dev-02308": {
         "dependencies": {
           "Microsoft.Extensions.Logging": "9.0.0",
           "Serilog": "4.2.0"
         },
         "runtime": {
           "lib/net8.0/Serilog.Extensions.Logging.dll": {
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "8.0.0.0"
+            "assemblyVersion": "9.0.1.0",
+            "fileVersion": "9.0.1.0"
           }
         }
       },
@@ -1513,12 +1513,12 @@
       "path": "serilog.extensions.hosting/8.0.0",
       "hashPath": "serilog.extensions.hosting.8.0.0.nupkg.sha512"
     },
-    "Serilog.Extensions.Logging/8.0.0": {
+    "Serilog.Extensions.Logging/9.0.1-dev-02308": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YEAMWu1UnWgf1c1KP85l1SgXGfiVo0Rz6x08pCiPOIBt2Qe18tcZLvdBUuV5o1QHvrs8FAry9wTIhgBRtjIlEg==",
-      "path": "serilog.extensions.logging/8.0.0",
-      "hashPath": "serilog.extensions.logging.8.0.0.nupkg.sha512"
+      "sha512": "sha512-KKpR+J+Edb1vRBA6ydnLrY+kBlUEaEPwXy5OjmcZz6pr2luHFCBqOmMWxlxPKyBYCoM+jiPcjAefVggEcFkJaA==",
+      "path": "serilog.extensions.logging/9.0.1-dev-02308",
+      "hashPath": "serilog.extensions.logging.9.0.1-dev-02308.nupkg.sha512"
     },
     "Serilog.Formatting.Compact/2.0.0": {
       "type": "package",
