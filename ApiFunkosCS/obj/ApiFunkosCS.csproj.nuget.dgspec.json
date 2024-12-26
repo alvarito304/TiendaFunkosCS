@@ -13,6 +13,7 @@
         "packagesPath": "C:\\Users\\alvaro\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\alvaro\\RiderProjects\\TiendaFunkosCS\\ApiFunkosCS\\obj\\",
         "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
         "configFilePaths": [
           "C:\\Users\\alvaro\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],

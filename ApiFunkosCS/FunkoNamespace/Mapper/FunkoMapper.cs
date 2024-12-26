@@ -26,7 +26,6 @@ public static class FunkoMapper
     {
         oldFunko.Description = request.Description;
         oldFunko.Stock = request.Stock;
-        oldFunko.ImageUrl = request.ImageUrl;
         oldFunko.Price = request.Price;
         return oldFunko;
     }

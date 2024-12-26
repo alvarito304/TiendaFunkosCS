@@ -15,8 +15,6 @@ public class FunkoDtoUpdateRequest
     [DefaultValue(0)]
     [Range(1, 100)]
     public int Stock { get; set; } 
-    
-    public string ImageUrl { get; set; }
     public int Price { get; set; }
     
 }

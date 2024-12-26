@@ -55,6 +55,16 @@ public class FunkoController : ControllerBase
 
         return Ok(result.Value);
     }
+    
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<FunkoDtoResponse>> UpdateImageFunko(int id, IFormFile imageFunko)
+    {
+        var result = await _funkoService.UpdateImageAsync(id, imageFunko);
+
+        if (result.IsFailure) return NotFound(result);
+
+        return Ok(result.Value);
+    }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<FunkoDtoResponse>> DeleteFunko(int id)
