@@ -13,6 +13,10 @@ public class CategoryStorageCsv : ICategoryStorageCsv
 
         await foreach (var category in csv.GetRecordsAsync<Category>())
         {
+            if (string.IsNullOrWhiteSpace(category.Name))
+            {
+                continue; // Skip categories without a name
+            }
             yield return category;
         }
     }

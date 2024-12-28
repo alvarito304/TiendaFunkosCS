@@ -1,6 +1,7 @@
 using ApiFunkosCS.CategoryNamespace.Errors;
 using ApiFunkosCS.CategoryNamespace.Model;
 using ApiFunkosCS.CategoryNamespace.Repository;
+using ApiFunkosCS.Storage.Exceptions;
 using ApiFunkosCS.Storage.ProcessingFile.Services;
 using CSharpFunctionalExtensions;
 
@@ -70,15 +71,17 @@ public class CategoryService : ICategoryService
 
         try
         {
-            // Asegúrate de que el archivo no sea nulo y tenga contenido
             if (file == null || file.Length == 0)
             {
-                throw new ArgumentException("El archivo CSV está vacío o es nulo.");
+                throw new MinFileSizeStorageException();
             }
-
-            // Leer el contenido del archivo
-            using var stream = file.OpenReadStream();
-
+            
+            if (!file.ContentType.Contains("text/csv"))
+            {
+                throw new FileExtensionNotAllowedException(file.FileName);
+            }
+            
+            await using var stream = file.OpenReadStream();
             await foreach (var category in _categoryStorageCsv.ImportAsync(stream))
             {
                 // Procesar y agregar la categoría
@@ -91,7 +94,7 @@ public class CategoryService : ICategoryService
         catch (Exception ex)
         {
             _logger.LogError($"Error importing categories from CSV: {ex.Message}", ex);
-            throw; // Re-lanza la excepción para que sea manejada por el consumidor del método
+            throw;
         }
 
         return categories;
