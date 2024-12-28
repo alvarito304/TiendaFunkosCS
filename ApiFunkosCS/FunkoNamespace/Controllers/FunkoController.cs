@@ -1,3 +1,4 @@
+using ApiFunkosCS.FunkoNamespace.Dto;
 using ApiFunkosCS.FunkoNamespace.Exception;
 using ApiFunkosCS.FunkoNamespace.Model;
 using ApiFunkosCS.FunkoNamespace.Service;
@@ -23,14 +24,14 @@ public class FunkoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Funko>>> GetAll()
+    public async Task<ActionResult<IEnumerable<FunkoDtoResponse>>> GetAll()
     {
         _logger.LogInformation("Obteniendo todos los Funkos");
         return await _funkoService.FindAllAsync();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Funko>> GetFunkoById(int id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<FunkoDtoResponse>> GetFunkoById(int id)
     {
         var result = await _funkoService.FindByIdAsync(id);
 
@@ -40,13 +41,13 @@ public class FunkoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Funko>> CreateFunko([FromBody] Funko funko)
+    public async Task<ActionResult<FunkoDtoResponse>> CreateFunko([FromBody] FunkoDtoSaveRequest funko)
     {
         return await _funkoService.CreateAsync(funko);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<Funko>> UpdateFunko(int id, [FromBody] Funko funko)
+    public async Task<ActionResult<FunkoDtoResponse>> UpdateFunko(int id, [FromBody] FunkoDtoUpdateRequest funko)
     {
         var result = await _funkoService.UpdateAsync(id, funko);
 
@@ -54,9 +55,19 @@ public class FunkoController : ControllerBase
 
         return Ok(result.Value);
     }
+    
+    [HttpPatch("{id}")]
+    public async Task<ActionResult<FunkoDtoResponse>> UpdateImageFunko(int id, IFormFile imageFunko)
+    {
+        var result = await _funkoService.UpdateImageAsync(id, imageFunko);
+
+        if (result.IsFailure) return NotFound(result);
+
+        return Ok(result.Value);
+    }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Funko>> DeleteFunko(int id)
+    public async Task<ActionResult<FunkoDtoResponse>> DeleteFunko(int id)
     {
         var result = await _funkoService.DeleteAsync(id);
 

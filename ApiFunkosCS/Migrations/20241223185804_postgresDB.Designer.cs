@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ApiFunkosCS.Migrations
 {
     [DbContext(typeof(TiendaDbContext))]
-    [Migration("20241214224932_firstmigration")]
-    partial class firstmigration
+    [Migration("20241223185804_postgresDB")]
+    partial class postgresDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,9 +37,9 @@ namespace ApiFunkosCS.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateOnly>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -61,9 +61,9 @@ namespace ApiFunkosCS.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

@@ -321,3 +321,4 @@ C:\Users\alvaro\RiderProjects\TiendaFunkosCS\ApiFunkosCS\obj\Debug\net8.0\refint
 C:\Users\alvaro\RiderProjects\TiendaFunkosCS\ApiFunkosCS\obj\Debug\net8.0\ApiFunkosCS.pdb
 C:\Users\alvaro\RiderProjects\TiendaFunkosCS\ApiFunkosCS\obj\Debug\net8.0\ApiFunkosCS.genruntimeconfig.cache
 C:\Users\alvaro\RiderProjects\TiendaFunkosCS\ApiFunkosCS\obj\Debug\net8.0\ref\ApiFunkosCS.dll
+C:\Users\alvaro\RiderProjects\TiendaFunkosCS\ApiFunkosCS\bin\Debug\net8.0\CsvHelper.dll

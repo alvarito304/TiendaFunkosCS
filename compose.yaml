@@ -12,7 +12,7 @@
     networks:
       - tienda-network
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=
 
   mongo-db:
     container_name: tienda-mongo

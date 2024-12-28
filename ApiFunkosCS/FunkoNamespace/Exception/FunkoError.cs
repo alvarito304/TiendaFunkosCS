@@ -16,5 +16,13 @@ public abstract class FunkoError : System.Exception
             Message = "Esta Funko no se encuentra con el ID: " + id;
         }
     }
+    
+    public class NothingToUpdate : FunkoError
+    {
+        public NothingToUpdate(int id)
+        {
+            Message = "No se ha pasado ningun dato o imagen para actualizar la Funko con el ID: " + id;
+        }
+    }
         
 }
