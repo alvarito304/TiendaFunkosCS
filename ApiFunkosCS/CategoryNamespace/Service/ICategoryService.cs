@@ -11,4 +11,5 @@ public interface ICategoryService
     Task<Category> AddAsync(Category category);
     Task<Result<Category, CategoryError.NotFound>> UpdateAsync(string id, Category category);
     Task<Category> DeleteAsync(string id);
+    Task<List<Category>> ImportByCsvAsync(IFormFile file);   
 }

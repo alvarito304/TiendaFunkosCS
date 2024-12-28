@@ -1,6 +1,7 @@
 using ApiFunkosCS.CategoryNamespace.Errors;
 using ApiFunkosCS.CategoryNamespace.Model;
 using ApiFunkosCS.CategoryNamespace.Repository;
+using ApiFunkosCS.Storage.ProcessingFile.Services;
 using CSharpFunctionalExtensions;
 
 namespace ApiFunkosCS.CategoryNamespace.Service;
@@ -9,11 +10,13 @@ public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
     private readonly ILogger<CategoryService> _logger;
+    private readonly ICategoryStorageCsv _categoryStorageCsv;
     
-    public CategoryService(ICategoryRepository repository, ILogger<CategoryService> logger)
+    public CategoryService(ICategoryRepository repository, ILogger<CategoryService> logger, ICategoryStorageCsv categoryStorageCsv)
     {
         _repository = repository;
         _logger = logger;
+        _categoryStorageCsv = categoryStorageCsv;
     }
     public async Task<List<Category>> FindAllAsync()
     {
@@ -58,4 +61,41 @@ public class CategoryService : ICategoryService
         }
         return category;
     }
+
+    public async Task<List<Category>> ImportByCsvAsync(IFormFile file)
+    {
+        _logger.LogInformation($"Importing categories from CSV: {file.FileName}");
+    
+        var categories = new List<Category>();
+
+        try
+        {
+            // Asegúrate de que el archivo no sea nulo y tenga contenido
+            if (file == null || file.Length == 0)
+            {
+                throw new ArgumentException("El archivo CSV está vacío o es nulo.");
+            }
+
+            // Leer el contenido del archivo
+            using var stream = file.OpenReadStream();
+
+            await foreach (var category in _categoryStorageCsv.ImportAsync(stream))
+            {
+                // Procesar y agregar la categoría
+                categories.Add(category);
+                await _repository.AddAsync(category);
+            }
+
+            _logger.LogInformation($"Successfully imported {categories.Count} categories.");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error importing categories from CSV: {ex.Message}", ex);
+            throw; // Re-lanza la excepción para que sea manejada por el consumidor del método
+        }
+
+        return categories;
+    }
+
+
 }

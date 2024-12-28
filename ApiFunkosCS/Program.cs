@@ -7,6 +7,7 @@ using ApiFunkosCS.FunkoNamespace.Repository;
 using ApiFunkosCS.FunkoNamespace.Service;
 using ApiFunkosCS.Storage.Common;
 using ApiFunkosCS.Storage.LocalStorage.Service;
+using ApiFunkosCS.Storage.ProcessingFile.Services;
 using ApiFunkosCS.Utils.DevApplyMigrations;
 using ApiFunkosCS.Utils.ExceptionMiddleware;
 using Microsoft.EntityFrameworkCore;
@@ -137,6 +138,10 @@ WebApplicationBuilder InitServices()
 
     myBuilder.Services.AddSingleton(storageConfig);
     myBuilder.Services.AddScoped<IStorageService, LocalStorageService>();
+    
+// CSV STORAGE
+    myBuilder.Services.AddScoped<ICategoryStorageCsv, CategoryStorageCsv>();
+    
 
 /*********************************************************/
 
