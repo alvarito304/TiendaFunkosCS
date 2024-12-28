@@ -56,4 +56,12 @@ public class CategoryController : ControllerBase
         var result = await _categoryService.DeleteAsync(id);
         return Ok(result);
     }
+
+    [HttpPost("import")]
+    public async Task<ActionResult> ImportByCsv(IFormFile file)
+    {
+        _logger.LogInformation("Importing categories from CSV");
+        var categories = await _categoryService.ImportByCsvAsync(file);
+        return Ok(categories);
+    }
 }
