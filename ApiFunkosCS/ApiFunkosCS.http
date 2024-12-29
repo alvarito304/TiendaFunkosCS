@@ -1,6 +1,0 @@
-@ApiFunkosCS_HostAddress = http://localhost:5099
-
-GET {{ApiFunkosCS_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
