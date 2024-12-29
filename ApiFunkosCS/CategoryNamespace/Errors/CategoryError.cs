@@ -11,8 +11,10 @@ public class CategoryError : Exception
     
     public class NotFound : CategoryError
     {
+        public string CategoryId { get; }
         public NotFound(string id)
         {
+            CategoryId = id;
             Message = "Esta Categoria no se encuentra con el ID: " + id;
         }
     }

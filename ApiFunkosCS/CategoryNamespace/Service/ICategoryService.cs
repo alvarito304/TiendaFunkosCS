@@ -13,4 +13,8 @@ public interface ICategoryService
     Task<Category> DeleteAsync(string id);
     Task<List<Category>> ImportByCsvAsync(IFormFile file);   
     Task<FileStream> ExportCsvAsync();
+    
+    Task<List<Category>> ImportByJsonAsync(IFormFile file); 
+    
+    Task<FileStream> ExportJsonAsync();
 }
