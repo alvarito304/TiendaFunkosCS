@@ -5,6 +5,8 @@ using ApiFunkosCS.FunkoNamespace.Mapper;
 using ApiFunkosCS.FunkoNamespace.Model;
 using ApiFunkosCS.FunkoNamespace.Repository;
 using ApiFunkosCS.Storage.Common;
+using ApiFunkosCS.Storage.Exceptions;
+using ApiFunkosCS.Storage.ProcessingFile.Services.Funkos;
 using CSharpFunctionalExtensions;
 
 namespace ApiFunkosCS.FunkoNamespace.Service;
@@ -15,13 +17,15 @@ public class FunkoService : IFunkoService
     private readonly IFunkoRepository _funkoRepository;
     private readonly ICategoryService _categoryService;
     private readonly IStorageService _storageService;
+    private readonly IFunkoStorageImportCsv _funkoStorageImportCsv;
 
-    public FunkoService(ILogger<FunkoService> logger, IFunkoRepository funkoRepository, ICategoryService categoryService, IStorageService storageService)
+    public FunkoService(ILogger<FunkoService> logger, IFunkoRepository funkoRepository, ICategoryService categoryService, IStorageService storageService, IFunkoStorageImportCsv funkoStorageImportCsv)
     {
         _logger = logger;
         _funkoRepository = funkoRepository;
         _categoryService = categoryService;
         _storageService = storageService;
+        _funkoStorageImportCsv = funkoStorageImportCsv;
     }
     public async Task<List<FunkoDtoResponse>> FindAllAsync()
     {
@@ -136,5 +140,57 @@ public class FunkoService : IFunkoService
     {
         _logger.LogInformation($"Deleting all Funkos");
         _funkoRepository.DeleteAllAsync();
+    }
+
+    public async Task<List<FunkoDtoResponse>> ImportByCsvAsync(IFormFile file)
+    {
+       _logger.LogInformation($"Importing Funkos from CSV file");
+       
+       var funkos = new List<FunkoDtoResponse>();
+
+       if (file == null || file.Length == 0)
+       {
+           throw new MinFileSizeStorageException();
+       }
+            
+       if (!file.ContentType.Contains("text/csv"))
+       {
+           throw new FileExtensionNotAllowedException(file.FileName);
+       }
+
+       await using var stream = file.OpenReadStream();
+       await foreach (var funko in _funkoStorageImportCsv.ImportAsync(stream))
+       {
+           var funkoResponse = await CreateAsync(funko);
+           funkos.Add(funkoResponse);
+       }
+       return funkos;
+    }
+
+    public async Task<FileStream> ExportCsvAsync()
+    {
+        
+        var filePath = $"funkos_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.csv";
+        _logger.LogInformation($"Exporting Funkos to CSV file: {filePath}");
+
+        var funkos = await _funkoRepository.GetAllAsync();
+        await using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            await _funkoStorageImportCsv.ExportAsync(funkos, fileStream);
+        }
+
+        // Abrir un nuevo flujo para lectura
+        var readStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return readStream;
+    }
+
+    public Task<List<FunkoDtoResponse>> ImportByJsonAsync(IFormFile file)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<FileStream> ExportJsonAsync()
+    {
+        throw new NotImplementedException();
     }
 }

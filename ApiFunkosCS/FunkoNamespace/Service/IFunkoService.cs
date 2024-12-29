@@ -14,4 +14,11 @@ public interface IFunkoService
     Task<Result<FunkoDtoResponse, FunkoError>> UpdateImageAsync(int id, IFormFile imageFunko);
     Task<Result<FunkoDtoResponse, FunkoError.NotFound>> DeleteAsync(int id);
     void DeleteAllAsync();
+    
+    Task<List<FunkoDtoResponse>> ImportByCsvAsync(IFormFile file);   
+    Task<FileStream> ExportCsvAsync();
+    
+    Task<List<FunkoDtoResponse>> ImportByJsonAsync(IFormFile file); 
+    
+    Task<FileStream> ExportJsonAsync();
 }

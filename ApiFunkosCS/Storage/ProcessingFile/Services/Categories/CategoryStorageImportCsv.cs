@@ -2,9 +2,9 @@ using System.Globalization;
 using ApiFunkosCS.CategoryNamespace.Model;
 using CsvHelper;
 
-namespace ApiFunkosCS.Storage.ProcessingFile.Services;
+namespace ApiFunkosCS.Storage.ProcessingFile.Services.Categories;
 
-public class CategoryStorageCsv : ICategoryStorageCsv
+public class CategoryStorageImportCsv : ICategoryStorageImportCsv
 {
     public async IAsyncEnumerable<Category> ImportAsync(Stream fileStream)
     {
