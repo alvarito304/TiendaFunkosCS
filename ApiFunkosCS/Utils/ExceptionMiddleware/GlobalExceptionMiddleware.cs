@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using ApiFunkosCS.CategoryNamespace.Errors;
 using ApiFunkosCS.FunkoNamespace.Exception;
 
 namespace ApiFunkosCS.Utils.ExceptionMiddleware;
@@ -21,7 +22,7 @@ public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExcep
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             // Definir el código de estado HTTP por defecto
-            var statusCode = HttpStatusCode.InternalServerError;
+            var statusCode = HttpStatusCode.BadRequest;
             var errorResponse = new { message = "An unexpected error occurred." };
 
             // Manejar tipos de excepciones personalizadas

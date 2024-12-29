@@ -139,8 +139,11 @@ WebApplicationBuilder InitServices()
     myBuilder.Services.AddSingleton(storageConfig);
     myBuilder.Services.AddScoped<IStorageService, LocalStorageService>();
     
-// CSV STORAGE
+// CSV CATEGORY STORAGE
     myBuilder.Services.AddScoped<ICategoryStorageCsv, CategoryStorageCsv>();
+    
+// JSON CATEGORY STORAGE
+    myBuilder.Services.AddScoped<ICategoryStorageJson, CategoryStorageJson>();
     
 
 /*********************************************************/

@@ -1,5 +1,6 @@
 using ApiFunkosCS.CategoryNamespace.Model;
 using ApiFunkosCS.CategoryNamespace.Service;
+using ApiFunkosCS.Storage.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiFunkosCS.CategoryNamespace.Controller;
@@ -30,7 +31,8 @@ public class CategoryController : ControllerBase
     {
         _logger.LogInformation($"Getting category by id: {id}");
         var result = await _categoryService.FindByIdAsync(id);
-        return result.IsSuccess ? Ok(result.Value) : NotFound(result.Error);
+        if (result.IsFailure) return NotFound(result);
+        return Ok(result.Value);
     }
 
     [HttpPost]
@@ -57,11 +59,39 @@ public class CategoryController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPost("import")]
+    [HttpPost("importByCsv")]
     public async Task<ActionResult> ImportByCsv(IFormFile file)
     {
         _logger.LogInformation("Importing categories from CSV");
         var categories = await _categoryService.ImportByCsvAsync(file);
         return Ok(categories);
+    }
+    
+    [HttpGet("exportCsvFile")]
+    public async Task<IActionResult> ExportCsvFile()
+    {
+        var fileStream = await _categoryService.ExportCsvAsync();
+        var fileName = Path.GetFileName(fileStream.Name);
+        var fileExtension = Path.GetExtension(fileName);
+        var mimeType = MimeTypes.GetMimeType(fileExtension);
+        return File(fileStream, mimeType, fileName);
+    }
+    
+    [HttpPost("importByJson")]
+    public async Task<ActionResult> ImportByJson(IFormFile file)
+    {
+        _logger.LogInformation("Importing categories from CSV");
+        var categories = await _categoryService.ImportByJsonAsync(file);
+        return Ok(categories);
+    }
+    
+    [HttpGet("exportJsonFile")]
+    public async Task<IActionResult> ExportJsonFile()
+    {
+        var fileStream = await _categoryService.ExportJsonAsync();
+        var fileName = Path.GetFileName(fileStream.Name);
+        var fileExtension = Path.GetExtension(fileName);
+        var mimeType = MimeTypes.GetMimeType(fileExtension);
+        return File(fileStream, mimeType, fileName);
     }
 }
