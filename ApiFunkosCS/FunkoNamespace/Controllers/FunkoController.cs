@@ -2,6 +2,7 @@ using ApiFunkosCS.FunkoNamespace.Dto;
 using ApiFunkosCS.FunkoNamespace.Exception;
 using ApiFunkosCS.FunkoNamespace.Model;
 using ApiFunkosCS.FunkoNamespace.Service;
+using ApiFunkosCS.Storage.Common;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -88,5 +89,15 @@ public class FunkoController : ControllerBase
         _logger.LogInformation("Importing categories from CSV");
         var funkos = await _funkoService.ImportByCsvAsync(file);
         return Ok(funkos);
+    }
+    
+    [HttpGet("exportCsvFile")]
+    public async Task<IActionResult> ExportCsvFile()
+    {
+        var fileStream = await _funkoService.ExportCsvAsync();
+        var fileName = Path.GetFileName(fileStream.Name);
+        var fileExtension = Path.GetExtension(fileName);
+        var mimeType = MimeTypes.GetMimeType(fileExtension);
+        return File(fileStream, mimeType, fileName);
     }
 }

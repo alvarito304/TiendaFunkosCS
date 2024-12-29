@@ -1,7 +1,6 @@
 namespace ApiFunkosCS.Storage.Common;
 
-public interface ISerializationStorage<T>
+public interface ISerializationStorageExport<T>
 {
-    IAsyncEnumerable<T> ImportAsync(Stream file);
     Task ExportAsync(IEnumerable<T> data, Stream outputStream);
 }

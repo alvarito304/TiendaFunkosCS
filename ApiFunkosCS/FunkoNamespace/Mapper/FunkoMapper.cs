@@ -41,4 +41,16 @@ public static class FunkoMapper
             CategoryID = request.CategoryID
         };
     }
+
+    public static FunkoDtoSaveRequest MapToDtoSaveRequest(this Funko funko)
+    {
+        return new FunkoDtoSaveRequest
+        {
+            Name = funko.Name,
+            Description = funko.Description,
+            Stock = funko.Stock,
+            Price = funko.Price,
+            CategoryID = funko.CategoryID
+        };
+    }
 }

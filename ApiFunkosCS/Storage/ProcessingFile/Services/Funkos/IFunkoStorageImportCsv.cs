@@ -1,6 +1,6 @@
 namespace ApiFunkosCS.Storage.ProcessingFile.Services.Funkos;
 
-public interface IFunkoStorageJson : IFunkoStorage
+public interface IFunkoStorageImportCsv : IFunkoStorageImport 
 {
     
 }

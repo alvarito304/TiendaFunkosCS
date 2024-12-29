@@ -3,7 +3,7 @@ using ApiFunkosCS.FunkoNamespace.Model;
 
 namespace ApiFunkosCS.Storage.ProcessingFile.Services.Funkos;
 
-public class FunkosStorageJson : IFunkoStorageJson
+public class FunkosStorageImportJson 
 {
     public IAsyncEnumerable<FunkoDtoSaveRequest> ImportAsync(Stream file)
     {

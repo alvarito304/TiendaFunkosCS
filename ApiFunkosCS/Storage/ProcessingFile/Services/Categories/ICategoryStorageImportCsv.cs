@@ -1,6 +1,6 @@
 namespace ApiFunkosCS.Storage.ProcessingFile.Services.Categories;
 
-public interface ICategoryStorageCsv : ICategoryStorage 
+public interface ICategoryStorageImportCsv : ICategoryStorageImport 
 {
     
 }

@@ -4,7 +4,7 @@ using ApiFunkosCS.Storage.Common;
 
 namespace ApiFunkosCS.Storage.ProcessingFile.Services.Funkos;
 
-public interface IFunkoStorage : ISerializationStorage<FunkoDtoSaveRequest>
+public interface IFunkoStorageImport : ISerializationStorageImport<FunkoDtoSaveRequest>, ISerializationStorageExport<Funko>
 {
-    
+ 
 }

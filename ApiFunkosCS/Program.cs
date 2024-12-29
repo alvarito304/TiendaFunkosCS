@@ -142,13 +142,13 @@ WebApplicationBuilder InitServices()
     myBuilder.Services.AddScoped<IStorageService, LocalStorageService>();
     
 // CSV CATEGORY STORAGE
-    myBuilder.Services.AddScoped<ICategoryStorageCsv, CategoryStorageCsv>();
+    myBuilder.Services.AddScoped<ICategoryStorageImportCsv, CategoryStorageImportCsv>();
     
 // JSON CATEGORY STORAGE
-    myBuilder.Services.AddScoped<ICategoryStorageJson, CategoryStorageJson>();
+    myBuilder.Services.AddScoped<ICategoryStorageImportJson, CategoryStorageImportJson>();
     
 // CSV FUNKO STORAGE
-    myBuilder.Services.AddScoped<IFunkoStorageCsv, FunkoStorageCsv>();
+    myBuilder.Services.AddScoped<IFunkoStorageImportCsv, FunkoStorageImportCsv>();
 /*********************************************************/
 
 /****************  DOCUMENTACION DE SWAGGER **************/

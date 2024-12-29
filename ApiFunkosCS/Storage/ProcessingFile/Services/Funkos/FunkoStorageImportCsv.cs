@@ -1,10 +1,11 @@
 using System.Globalization;
 using ApiFunkosCS.FunkoNamespace.Dto;
+using ApiFunkosCS.FunkoNamespace.Model;
 using CsvHelper;
 
 namespace ApiFunkosCS.Storage.ProcessingFile.Services.Funkos;
 
-public class FunkoStorageCsv : IFunkoStorageCsv
+public class FunkoStorageImportCsv : IFunkoStorageImportCsv
 {
     public async IAsyncEnumerable<FunkoDtoSaveRequest> ImportAsync(Stream file)
     {
@@ -20,10 +21,23 @@ public class FunkoStorageCsv : IFunkoStorageCsv
             yield return funko;
         }
     }
+    
 
-    public Task ExportAsync(IEnumerable<FunkoDtoSaveRequest> data, Stream outputStream)
+    public async Task ExportAsync(IEnumerable<Funko> data, Stream outputStream)
     {
-        throw new NotImplementedException();
+        // Validación de entrada
+        if (data == null)
+            throw new ArgumentNullException(nameof(data));
+        if (outputStream == null)
+            throw new ArgumentNullException(nameof(outputStream));
+        
+        await using var writer = new StreamWriter(outputStream);
+        await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        // Escribir encabezados y datos
+        await csv.WriteRecordsAsync(data);
+
+        // Asegurarse de que todo esté escrito al flujo
+        await writer.FlushAsync();
     }
     
 }

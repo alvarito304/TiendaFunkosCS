@@ -17,15 +17,15 @@ public class FunkoService : IFunkoService
     private readonly IFunkoRepository _funkoRepository;
     private readonly ICategoryService _categoryService;
     private readonly IStorageService _storageService;
-    private readonly IFunkoStorageCsv _funkoStorageCsv;
+    private readonly IFunkoStorageImportCsv _funkoStorageImportCsv;
 
-    public FunkoService(ILogger<FunkoService> logger, IFunkoRepository funkoRepository, ICategoryService categoryService, IStorageService storageService, IFunkoStorageCsv funkoStorageCsv)
+    public FunkoService(ILogger<FunkoService> logger, IFunkoRepository funkoRepository, ICategoryService categoryService, IStorageService storageService, IFunkoStorageImportCsv funkoStorageImportCsv)
     {
         _logger = logger;
         _funkoRepository = funkoRepository;
         _categoryService = categoryService;
         _storageService = storageService;
-        _funkoStorageCsv = funkoStorageCsv;
+        _funkoStorageImportCsv = funkoStorageImportCsv;
     }
     public async Task<List<FunkoDtoResponse>> FindAllAsync()
     {
@@ -159,7 +159,7 @@ public class FunkoService : IFunkoService
        }
 
        await using var stream = file.OpenReadStream();
-       await foreach (var funko in _funkoStorageCsv.ImportAsync(stream))
+       await foreach (var funko in _funkoStorageImportCsv.ImportAsync(stream))
        {
            var funkoResponse = await CreateAsync(funko);
            funkos.Add(funkoResponse);
@@ -167,9 +167,21 @@ public class FunkoService : IFunkoService
        return funkos;
     }
 
-    public Task<FileStream> ExportCsvAsync()
+    public async Task<FileStream> ExportCsvAsync()
     {
-        throw new NotImplementedException();
+        
+        var filePath = $"funkos_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.csv";
+        _logger.LogInformation($"Exporting Funkos to CSV file: {filePath}");
+
+        var funkos = await _funkoRepository.GetAllAsync();
+        await using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            await _funkoStorageImportCsv.ExportAsync(funkos, fileStream);
+        }
+
+        // Abrir un nuevo flujo para lectura
+        var readStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return readStream;
     }
 
     public Task<List<FunkoDtoResponse>> ImportByJsonAsync(IFormFile file)

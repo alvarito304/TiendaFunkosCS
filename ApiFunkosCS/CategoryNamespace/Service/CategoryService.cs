@@ -12,15 +12,15 @@ public class CategoryService : ICategoryService
 {
     private readonly ICategoryRepository _repository;
     private readonly ILogger<CategoryService> _logger;
-    private readonly ICategoryStorageCsv _categoryStorageCsv;
-    private readonly ICategoryStorageJson _categoryStorageJson;
+    private readonly ICategoryStorageImportCsv _categoryStorageImportCsv;
+    private readonly ICategoryStorageImportJson _categoryStorageImportJson;
     
-    public CategoryService(ICategoryRepository repository, ILogger<CategoryService> logger, ICategoryStorageCsv categoryStorageCsv, ICategoryStorageJson categoryStorageJson)
+    public CategoryService(ICategoryRepository repository, ILogger<CategoryService> logger, ICategoryStorageImportCsv categoryStorageImportCsv, ICategoryStorageImportJson categoryStorageImportJson)
     {
         _repository = repository;
         _logger = logger;
-        _categoryStorageCsv = categoryStorageCsv;
-        _categoryStorageJson = categoryStorageJson;
+        _categoryStorageImportCsv = categoryStorageImportCsv;
+        _categoryStorageImportJson = categoryStorageImportJson;
     }
     public async Task<List<Category>> FindAllAsync()
     {
@@ -86,7 +86,7 @@ public class CategoryService : ICategoryService
             }
             
             await using var stream = file.OpenReadStream();
-            await foreach (var category in _categoryStorageCsv.ImportAsync(stream))
+            await foreach (var category in _categoryStorageImportCsv.ImportAsync(stream))
             {
                 // Procesar y agregar la categoría
                 categories.Add(category);
@@ -114,7 +114,7 @@ public class CategoryService : ICategoryService
         // Crear el archivo y escribir los datos
         await using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
         {
-            await _categoryStorageCsv.ExportAsync(categories, fileStream);
+            await _categoryStorageImportCsv.ExportAsync(categories, fileStream);
         }
 
         // Abrir un nuevo flujo para lectura
@@ -139,7 +139,7 @@ public class CategoryService : ICategoryService
         }
         
         await using var stream = file.OpenReadStream();
-        await foreach (var category in _categoryStorageJson.ImportAsync(stream))
+        await foreach (var category in _categoryStorageImportJson.ImportAsync(stream))
         {
             // Procesar y agregar la categoría
             categories.Add(category);
@@ -159,7 +159,7 @@ public class CategoryService : ICategoryService
         // Crear el archivo y escribir los datos
         await using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
         {
-            await _categoryStorageJson.ExportAsync(categories, fileStream);
+            await _categoryStorageImportJson.ExportAsync(categories, fileStream);
         }
 
         // Abrir un nuevo flujo para lectura
