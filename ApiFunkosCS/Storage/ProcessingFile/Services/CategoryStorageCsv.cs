@@ -22,8 +22,22 @@ public class CategoryStorageCsv : ICategoryStorageCsv
     }
 
 
-    public Task<int> ExportAsync(FileInfo file, List<Category> data)
+    public async Task ExportAsync(IEnumerable<Category> categories, Stream outputStream)
     {
-        throw new NotImplementedException();
+        // Validación de entrada
+        if (categories == null)
+            throw new ArgumentNullException(nameof(categories));
+        if (outputStream == null)
+            throw new ArgumentNullException(nameof(outputStream));
+
+        await using var writer = new StreamWriter(outputStream, leaveOpen: true);
+        await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+
+        // Escribir encabezados y datos
+        await csv.WriteRecordsAsync(categories);
+
+        // Asegurarse de que todo esté escrito al flujo
+        await writer.FlushAsync();
     }
+
 }

@@ -100,5 +100,22 @@ public class CategoryService : ICategoryService
         return categories;
     }
 
+    public async Task<FileStream> ExportCsvAsync()
+    {
+        var filePath = $"categories-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.csv";
+        _logger.LogInformation($"Exporting categories to CSV: {filePath}");
+
+        var categories = await _repository.GetAllAsync();
+
+        // Crear el archivo y escribir los datos
+        await using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+        {
+            await _categoryStorageCsv.ExportAsync(categories, fileStream);
+        }
+
+        // Abrir un nuevo flujo para lectura
+        var readStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return readStream;
+    }
 
 }

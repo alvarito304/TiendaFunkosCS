@@ -1,5 +1,6 @@
 using ApiFunkosCS.CategoryNamespace.Model;
 using ApiFunkosCS.CategoryNamespace.Service;
+using ApiFunkosCS.Storage.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiFunkosCS.CategoryNamespace.Controller;
@@ -63,5 +64,15 @@ public class CategoryController : ControllerBase
         _logger.LogInformation("Importing categories from CSV");
         var categories = await _categoryService.ImportByCsvAsync(file);
         return Ok(categories);
+    }
+    
+    [HttpGet("export")]
+    public async Task<IActionResult> ExportCsvFile()
+    {
+        var fileStream = await _categoryService.ExportCsvAsync();
+        var fileName = fileStream.Name;
+        var fileExtension = Path.GetExtension(fileName);
+        var mimeType = MimeTypes.GetMimeType(fileExtension);
+        return File(fileStream, mimeType, fileName);
     }
 }
