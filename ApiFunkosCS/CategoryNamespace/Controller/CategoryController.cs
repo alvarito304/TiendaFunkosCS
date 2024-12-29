@@ -70,7 +70,7 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> ExportCsvFile()
     {
         var fileStream = await _categoryService.ExportCsvAsync();
-        var fileName = fileStream.Name;
+        var fileName = Path.GetFileName(fileStream.Name);
         var fileExtension = Path.GetExtension(fileName);
         var mimeType = MimeTypes.GetMimeType(fileExtension);
         return File(fileStream, mimeType, fileName);
