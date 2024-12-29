@@ -1,0 +1,55 @@
+﻿services:
+  apifunkoscs:
+    image: apifunkoscs
+    build:
+      context: .
+      dockerfile: ApiFunkosCS/Dockerfile
+    ports:
+      - "5099:8080"
+    depends_on:
+      - mongo-db
+      - postgres
+    networks:
+      - tienda-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=
+
+  mongo-db:
+    container_name: tienda-mongo
+    image: mongo:4.4
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "pass"
+      MONGO_INITDB_DATABASE: "tienda"
+    volumes:
+      - mongo-init:/data/db
+      - ./ApiFunkosCS/initMongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - "27017:27017"
+    networks:
+      - tienda-network
+      
+
+  postgres:
+      image: postgres:latest
+      container_name: postgres_container
+      restart: always
+      environment:
+        POSTGRES_USER: user
+        POSTGRES_PASSWORD: pass
+        POSTGRES_DB: tienda
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data   
+      networks:
+        - tienda-network
+
+
+volumes:
+  mongo-init:
+  postgres_data:
+    
+networks:
+  tienda-network:
