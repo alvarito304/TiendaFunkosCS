@@ -1,9 +1,8 @@
-using System.Text.Json;
 using ApiFunkosCS.CategoryNamespace.Model;
 using Newtonsoft.Json;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
-namespace ApiFunkosCS.Storage.ProcessingFile.Services;
+namespace ApiFunkosCS.Storage.ProcessingFile.Services.Categories;
 
 public class CategoryStorageJson : ICategoryStorageJson 
 {

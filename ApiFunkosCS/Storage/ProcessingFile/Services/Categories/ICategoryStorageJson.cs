@@ -1,4 +1,4 @@
-namespace ApiFunkosCS.Storage.ProcessingFile.Services;
+namespace ApiFunkosCS.Storage.ProcessingFile.Services.Categories;
 
 public interface ICategoryStorageJson : ICategoryStorage
 {

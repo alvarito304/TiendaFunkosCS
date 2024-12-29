@@ -2,7 +2,7 @@ using System.Globalization;
 using ApiFunkosCS.CategoryNamespace.Model;
 using CsvHelper;
 
-namespace ApiFunkosCS.Storage.ProcessingFile.Services;
+namespace ApiFunkosCS.Storage.ProcessingFile.Services.Categories;
 
 public class CategoryStorageCsv : ICategoryStorageCsv
 {

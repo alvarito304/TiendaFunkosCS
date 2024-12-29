@@ -8,6 +8,8 @@ using ApiFunkosCS.FunkoNamespace.Service;
 using ApiFunkosCS.Storage.Common;
 using ApiFunkosCS.Storage.LocalStorage.Service;
 using ApiFunkosCS.Storage.ProcessingFile.Services;
+using ApiFunkosCS.Storage.ProcessingFile.Services.Categories;
+using ApiFunkosCS.Storage.ProcessingFile.Services.Funkos;
 using ApiFunkosCS.Utils.DevApplyMigrations;
 using ApiFunkosCS.Utils.ExceptionMiddleware;
 using Microsoft.EntityFrameworkCore;
@@ -145,7 +147,8 @@ WebApplicationBuilder InitServices()
 // JSON CATEGORY STORAGE
     myBuilder.Services.AddScoped<ICategoryStorageJson, CategoryStorageJson>();
     
-
+// CSV FUNKO STORAGE
+    myBuilder.Services.AddScoped<IFunkoStorageCsv, FunkoStorageCsv>();
 /*********************************************************/
 
 /****************  DOCUMENTACION DE SWAGGER **************/

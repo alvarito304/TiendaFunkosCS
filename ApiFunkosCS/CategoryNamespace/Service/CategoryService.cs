@@ -3,6 +3,7 @@ using ApiFunkosCS.CategoryNamespace.Model;
 using ApiFunkosCS.CategoryNamespace.Repository;
 using ApiFunkosCS.Storage.Exceptions;
 using ApiFunkosCS.Storage.ProcessingFile.Services;
+using ApiFunkosCS.Storage.ProcessingFile.Services.Categories;
 using CSharpFunctionalExtensions;
 
 namespace ApiFunkosCS.CategoryNamespace.Service;

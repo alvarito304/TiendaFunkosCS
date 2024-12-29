@@ -81,4 +81,12 @@ public class FunkoController : ControllerBase
     {
         _funkoService.DeleteAllAsync();
     }
+    
+    [HttpPost("importByCsv")]
+    public async Task<ActionResult> ImportByCsv(IFormFile file)
+    {
+        _logger.LogInformation("Importing categories from CSV");
+        var funkos = await _funkoService.ImportByCsvAsync(file);
+        return Ok(funkos);
+    }
 }
